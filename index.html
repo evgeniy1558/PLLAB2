@@ -1,0 +1,45 @@
+<html>
+  <body>
+    <form id="form">
+      <input type="text" name="input" />
+      <button type="submit">Submit</button>
+    </form>
+    <button id="button">Get Data</button>
+    <script src="/client.js"></script>
+  </body>
+</html>
+
+
+<script type="text/javascript" charset="utf-8">
+const express = require('express');
+const fs = require('fs');
+
+const app = express();
+
+// Serve the client HTML file at the root url
+app.get('/', (req, res) => {
+  fs.readFile('./client.html', (err, data) => {
+    if (err) {
+      res.status(500).send('Error reading client HTML file');
+    } else {
+      res.contentType('text/html');
+      res.send(data);
+    }
+  });
+});
+
+// POST method to submit a form
+app.post('/submit', (req, res) => {
+  // Process the form submission here
+  res.send('Form submitted');
+});
+
+// GET method to retrieve data
+app.get('/data', (req, res) => {
+  // Retrieve the data here and return it
+  res.json({ data: 'some data' });
+});
+
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
